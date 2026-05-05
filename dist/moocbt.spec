@@ -141,7 +141,7 @@
 
 
 Name:            moocbt
-Version:         0.12.2
+Version:         0.12.3
 Release:         1%{?dist}
 Summary:         Kernel module and utilities for enabling low-level live backups
 Vendor:          Project Orca Inc.
@@ -363,6 +363,9 @@ mkdir -p %{buildroot}%{_mandir}/man8
 install -p -m 0644 doc/moo.8 %{buildroot}%{_mandir}/man8/moo.8
 install -p -m 0755 utils/update-img %{buildroot}%{_bindir}/update-img
 install -p -m 0644 doc/update-img.8 %{buildroot}%{_mandir}/man8/update-img.8
+
+# Install reload script dir
+mkdir -p %{buildroot}%{_sysconfdir}/%{name}
 
 # Install kmod sources
 mkdir -p %{buildroot}%{_kmod_src_root}
@@ -626,6 +629,7 @@ ln -fs %{_systemd_services}/umount-rootfs.service   %{_systemd_services}/reboot.
 %if 0%{?rhel} && 0%{?rhel} < 7
 %config %{_sysconfdir}/sysconfig/modules/moocbt.modules
 %endif
+%dir %{_sysconfdir}/%{name}
 %dir %{_kmod_src_root}
 %{_kmod_src_root}/*.c
 %{_kmod_src_root}/*.h
@@ -659,6 +663,9 @@ rm %{_systemd_shutdown}/umount_rootfs.shutdown
 rm %{_systemd_services}/umount-rootfs.service
 
 %changelog
+* Tue May 5 2026 Dakota Williams <dakota@slide.tech> - 0.12.3
+- Update package owned directories to include reload script path
+
 * Tue Apr 21 2026 Dakota Williams <dakota@slide.tech> - 0.12.2
 - Initial moocbt
 - Prevent install on IBT-enabled configurations
