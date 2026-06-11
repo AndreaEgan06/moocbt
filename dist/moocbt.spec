@@ -401,11 +401,20 @@ install -m 755 dist/initramfs/reload %{buildroot}%{_sharedstatedir}/moocbt/reloa
 
 # Debian/Ubuntu use initramfs-tools
 %if 0%{?debian} || 0%{?ubuntu}
-mkdir -p %{buildroot}%{_initramfs_tools_root}
-mkdir -p %{buildroot}%{_initramfs_tools_root}/hooks
-mkdir -p %{buildroot}%{_initramfs_tools_root}/scripts/init-premount
-install -m 755 dist/initramfs/initramfs-tools/hooks/moocbt %{buildroot}%{_initramfs_tools_root}/hooks/moocbt
-install -m 755 dist/initramfs/initramfs-tools/scripts/moocbt %{buildroot}%{_initramfs_tools_root}/scripts/init-premount/moocbt
+%if 0%{?ubuntu} >= 2604
+%echo moocbt: initramfs integration = dracut (ubuntu=0%{?ubuntu})
+    mkdir -p %{buildroot}%{_dracut_modules_root}/90moocbt
+    install -m 755 dist/initramfs/dracut/moocbt.sh %{buildroot}%{_dracut_modules_root}/90moocbt/moocbt.sh
+    install -m 755 dist/initramfs/dracut/module-setup.sh %{buildroot}%{_dracut_modules_root}/90moocbt/module-setup.sh
+    install -m 755 dist/initramfs/dracut/install %{buildroot}%{_dracut_modules_root}/90moocbt/install
+%else
+%echo moocbt: initramfs integration = initramfs-tools (ubuntu=0%{?ubuntu} debian=0%{?debian})
+    mkdir -p %{buildroot}%{_initramfs_tools_root}
+    mkdir -p %{buildroot}%{_initramfs_tools_root}/hooks
+    mkdir -p %{buildroot}%{_initramfs_tools_root}/scripts/init-premount
+    install -m 755 dist/initramfs/initramfs-tools/hooks/moocbt %{buildroot}%{_initramfs_tools_root}/hooks/moocbt
+    install -m 755 dist/initramfs/initramfs-tools/scripts/moocbt %{buildroot}%{_initramfs_tools_root}/scripts/init-premount/moocbt
+%endif
 %else
 # openSUSE 13.1 and older use mkinitrd
 %if 0%{?suse_version} > 0 && 0%{?suse_version} < 1315
@@ -547,8 +556,15 @@ rm -rf %{buildroot}
 %dir %{_sharedstatedir}/moocbt
 %{_sharedstatedir}/moocbt/reload
 %if 0%{?debian} || 0%{?ubuntu}
+%if 0%{?ubuntu} >= 2604
+%dir %{_dracut_modules_root}/90moocbt
+%{_dracut_modules_root}/90moocbt/moocbt.sh
+%{_dracut_modules_root}/90moocbt/module-setup.sh
+%{_dracut_modules_root}/90moocbt/install
+%else
 %{_initramfs_tools_root}/hooks/moocbt
 %{_initramfs_tools_root}/scripts/init-premount/moocbt
+%endif
 %else
 %if 0%{?suse_version} > 0 && 0%{?suse_version} < 1315
 %{_mkinitrd_scripts_root}/boot-moocbt.sh
