@@ -48,7 +48,7 @@
 %global _mkinitrd_scripts_root /lib/mkinitrd/scripts
 %endif
 
-# Debian and Ubuntu use initramfs-tools instead of dracut.. for now
+# Debian and Ubuntu before 26.04 use initramfs-tools instead of dracut.
 %if 0%{?debian} || 0%{?ubuntu}
 %global _initramfs_tools_root %{_datadir}/initramfs-tools
 %endif
@@ -492,7 +492,7 @@ fi
 
 %post utils
 %if 0%{?rhel} != 5
-# Generate initramfs
+# Generate initramfs, this will select dracut for ubuntu 26.04
 if type "dracut" &> /dev/null; then
     echo "Configuring dracut, please wait..."
     dracut -f || :
