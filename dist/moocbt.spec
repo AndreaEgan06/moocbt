@@ -403,17 +403,17 @@ install -m 755 dist/initramfs/reload %{buildroot}%{_sharedstatedir}/moocbt/reloa
 %if 0%{?debian} || 0%{?ubuntu}
 %if 0%{?ubuntu} >= 2604
 %echo moocbt: initramfs integration = dracut (ubuntu=0%{?ubuntu})
-    mkdir -p %{buildroot}%{_dracut_modules_root}/90moocbt
-    install -m 755 dist/initramfs/dracut/moocbt.sh %{buildroot}%{_dracut_modules_root}/90moocbt/moocbt.sh
-    install -m 755 dist/initramfs/dracut/module-setup.sh %{buildroot}%{_dracut_modules_root}/90moocbt/module-setup.sh
-    install -m 755 dist/initramfs/dracut/install %{buildroot}%{_dracut_modules_root}/90moocbt/install
+mkdir -p %{buildroot}%{_dracut_modules_root}/90moocbt
+install -m 755 dist/initramfs/dracut/moocbt.sh %{buildroot}%{_dracut_modules_root}/90moocbt/moocbt.sh
+install -m 755 dist/initramfs/dracut/module-setup.sh %{buildroot}%{_dracut_modules_root}/90moocbt/module-setup.sh
+install -m 755 dist/initramfs/dracut/install %{buildroot}%{_dracut_modules_root}/90moocbt/install
 %else
 %echo moocbt: initramfs integration = initramfs-tools (ubuntu=0%{?ubuntu} debian=0%{?debian})
-    mkdir -p %{buildroot}%{_initramfs_tools_root}
-    mkdir -p %{buildroot}%{_initramfs_tools_root}/hooks
-    mkdir -p %{buildroot}%{_initramfs_tools_root}/scripts/init-premount
-    install -m 755 dist/initramfs/initramfs-tools/hooks/moocbt %{buildroot}%{_initramfs_tools_root}/hooks/moocbt
-    install -m 755 dist/initramfs/initramfs-tools/scripts/moocbt %{buildroot}%{_initramfs_tools_root}/scripts/init-premount/moocbt
+mkdir -p %{buildroot}%{_initramfs_tools_root}
+mkdir -p %{buildroot}%{_initramfs_tools_root}/hooks
+mkdir -p %{buildroot}%{_initramfs_tools_root}/scripts/init-premount
+install -m 755 dist/initramfs/initramfs-tools/hooks/moocbt %{buildroot}%{_initramfs_tools_root}/hooks/moocbt
+install -m 755 dist/initramfs/initramfs-tools/scripts/moocbt %{buildroot}%{_initramfs_tools_root}/scripts/init-premount/moocbt
 %endif
 %else
 # openSUSE 13.1 and older use mkinitrd
