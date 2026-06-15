@@ -409,11 +409,17 @@ install -m 755 dist/initramfs/reload %{buildroot}%{_sharedstatedir}/moocbt/reloa
 # Debian/Ubuntu use initramfs-tools
 %if 0%{?debian} || 0%{?ubuntu}
 %if 0%{?ubuntu} >= 2604
+
+%{echo:moocbt: initramfs branch = dracut (ubuntu >= 2604)}
+
 mkdir -p %{buildroot}%{_dracut_modules_root}/90moocbt
 install -m 755 dist/initramfs/dracut/moocbt.sh %{buildroot}%{_dracut_modules_root}/90moocbt/moocbt.sh
 install -m 755 dist/initramfs/dracut/module-setup.sh %{buildroot}%{_dracut_modules_root}/90moocbt/module-setup.sh
 install -m 755 dist/initramfs/dracut/install %{buildroot}%{_dracut_modules_root}/90moocbt/install
 %else
+
+%{echo:moocbt: initramfs branch = not dracut (ubuntu lt 2604)}
+
 mkdir -p %{buildroot}%{_initramfs_tools_root}
 mkdir -p %{buildroot}%{_initramfs_tools_root}/hooks
 mkdir -p %{buildroot}%{_initramfs_tools_root}/scripts/init-premount
