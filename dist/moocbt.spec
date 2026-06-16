@@ -6,7 +6,7 @@
 # Location to install kernel module sources
 %global _kmod_src_root %{_usrsrc}/%{name}-%{version}
 
-%{echo:DEBUG: ubuntu macro = "%{?ubuntu}", debian macro = "%{?debian}"}
+%{echo:moocbt: debug ubuntu macro = "%{?ubuntu}", debian macro = "%{?debian}"}
 
 
 # Location for systemd shutdown script
