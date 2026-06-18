@@ -398,8 +398,10 @@ install -m 755 dist/kernel.postinst.d/50-moocbt %{buildroot}%{_sysconfdir}/kerne
 %if 0%{?rhel} != 5
 
 # Install initramfs stuff
+%if ! (0%{?ubuntu} >= 2604)
 mkdir -p %{buildroot}%{_sharedstatedir}/moocbt
 install -m 755 dist/initramfs/reload %{buildroot}%{_sharedstatedir}/moocbt/reload
+%endif
 
 # Debian/Ubuntu use initramfs-tools
 %if 0%{?debian} || 0%{?ubuntu}
