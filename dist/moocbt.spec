@@ -404,13 +404,7 @@ install -m 755 dist/initramfs/reload %{buildroot}%{_sharedstatedir}/moocbt/reloa
 %endif
 
 # Debian/Ubuntu use initramfs-tools
-%if 0%{?debian} || 0%{?ubuntu}
-%if 0%{?ubuntu} >= 2604
-mkdir -p %{buildroot}%{_dracut_modules_root}/90moocbt
-install -m 755 dist/initramfs/dracut/moocbt.sh %{buildroot}%{_dracut_modules_root}/90moocbt/moocbt.sh
-install -m 755 dist/initramfs/dracut/module-setup.sh %{buildroot}%{_dracut_modules_root}/90moocbt/module-setup.sh
-install -m 755 dist/initramfs/dracut/install %{buildroot}%{_dracut_modules_root}/90moocbt/install
-%else
+%if 0%{?debian} || 0%{?ubuntu} < 2604
 mkdir -p %{buildroot}%{_initramfs_tools_root}
 mkdir -p %{buildroot}%{_initramfs_tools_root}/hooks
 mkdir -p %{buildroot}%{_initramfs_tools_root}/scripts/init-premount
@@ -557,16 +551,9 @@ rm -rf %{buildroot}
 %if 0%{?rhel} != 5
 %dir %{_sharedstatedir}/moocbt
 %{_sharedstatedir}/moocbt/reload
-%if 0%{?debian} || 0%{?ubuntu}
-%if 0%{?ubuntu} >= 2604
-%dir %{_dracut_modules_root}/90moocbt
-%{_dracut_modules_root}/90moocbt/moocbt.sh
-%{_dracut_modules_root}/90moocbt/module-setup.sh
-%{_dracut_modules_root}/90moocbt/install
-%else
+%if 0%{?debian} || 0%{?ubuntu} < 2604
 %{_initramfs_tools_root}/hooks/moocbt
 %{_initramfs_tools_root}/scripts/init-premount/moocbt
-%endif
 %else
 %if 0%{?suse_version} > 0 && 0%{?suse_version} < 1315
 %{_mkinitrd_scripts_root}/boot-moocbt.sh
