@@ -51,7 +51,7 @@
 %endif
 
 # Debian and Ubuntu before 26.04 use initramfs-tools instead of dracut.
-%if 0%{?debian} || ! (0%{?ubuntu} >= 2604)
+%if 0%{?debian} || (0%{?ubuntu} && 0%{?ubuntu} < 2604)
 %global _initramfs_tools_root %{_datadir}/initramfs-tools
 %endif
 
