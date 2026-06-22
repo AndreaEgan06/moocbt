@@ -550,7 +550,7 @@ rm -rf %{buildroot}
 %if 0%{?rhel} != 5
 %dir %{_sharedstatedir}/moocbt
 %{_sharedstatedir}/moocbt/reload
-%if 0%{?debian} || ! (0%{?ubuntu} >= 2604)
+%if 0%{?debian} || (0%{?ubuntu} && 0%{?ubuntu} < 2604)
 %{_initramfs_tools_root}/hooks/moocbt
 %{_initramfs_tools_root}/scripts/init-premount/moocbt
 %else
